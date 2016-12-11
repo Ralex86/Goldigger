@@ -1,0 +1,113 @@
+\hypertarget{struct_game_state}{}\section{Game\+State Struct Reference}
+\label{struct_game_state}\index{Game\+State@{Game\+State}}
+
+
+\hyperlink{struct_game_state}{Game\+State}\+: c\textquotesingle{}est le module central qui gère le chargement des niveaux, des éléments du décors, gère les collisions et réajuste les déplacements élémentaires dx, dy . C\textquotesingle{}est le noyau du jeu qui traite les informations reçus par les modules périphiriques, ce module est composé d\textquotesingle{}une structure de tableau de structures ou de structures, ce qui a rendu complexe l\textquotesingle{}integration des mutatteurs et poser des problèmes de dépendance cerculaire dans l\textquotesingle{}inclusion des fichier headers. Ayant réalisé ce fait trop tardivement nous n\textquotesingle{}avons pas pu respecter les modalitées de conceptions. Néanmoins nous avons mit un exemple de muttateur qui accéde au champ d\textquotesingle{}une des case de structure appartenent à une structure. Enfin l\textquotesingle{}avantage de passer par cette structure regroupant les sous structures est de pouvoir comprendre plus facilement le code a mesure qu\textquotesingle{}on le produit.  
+
+
+
+
+{\ttfamily \#include $<$Game\+State.\+h$>$}
+
+
+
+Collaboration diagram for Game\+State\+:
+% FIG 0
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct_game_state_a9da7aa2f94c428eaed5adad96a6ab151}{}int {\bfseries stage\+Num}\label{struct_game_state_a9da7aa2f94c428eaed5adad96a6ab151}
+
+\item 
+\hypertarget{struct_game_state_ab4614288190db9dc97430dcce3723e15}{}float {\bfseries map\+Gravity}\label{struct_game_state_ab4614288190db9dc97430dcce3723e15}
+
+\item 
+\hypertarget{struct_game_state_a961aa9558f857f38ed345472670ee4d0}{}float {\bfseries map\+Dim\+X}\label{struct_game_state_a961aa9558f857f38ed345472670ee4d0}
+
+\item 
+\hypertarget{struct_game_state_a3e1de0ebb3b61eae97b696570d060ec8}{}float {\bfseries map\+Dim\+Y}\label{struct_game_state_a3e1de0ebb3b61eae97b696570d060ec8}
+
+\item 
+\hypertarget{struct_game_state_a8a99b012e7beafa9a19c530adbda96e9}{}\hyperlink{struct_man}{Man} {\bfseries man}\label{struct_game_state_a8a99b012e7beafa9a19c530adbda96e9}
+
+\item 
+\hypertarget{struct_game_state_abaad992901c97c47e42af7f3c091a531}{}\hyperlink{struct_ledge}{Ledge} $\ast$ {\bfseries ledges}\label{struct_game_state_abaad992901c97c47e42af7f3c091a531}
+
+\item 
+\hypertarget{struct_game_state_a24aefbc132add18c1e5fc4054fc85945}{}int {\bfseries nb\+Ledges}\label{struct_game_state_a24aefbc132add18c1e5fc4054fc85945}
+
+\item 
+\hypertarget{struct_game_state_ad9f3e4bd57e2e3985b4790d86145e5bd}{}\hyperlink{struct_ladder}{Ladder} $\ast$ {\bfseries ladders}\label{struct_game_state_ad9f3e4bd57e2e3985b4790d86145e5bd}
+
+\item 
+\hypertarget{struct_game_state_ad3bc7ded27c4b72ba52cfb1488bb121a}{}int {\bfseries nb\+Ladders}\label{struct_game_state_ad3bc7ded27c4b72ba52cfb1488bb121a}
+
+\item 
+\hypertarget{struct_game_state_a5608ff405d332e980f87f84e1d14f376}{}\hyperlink{struct_lava}{Lava} $\ast$ {\bfseries lava\+\_\+blocks}\label{struct_game_state_a5608ff405d332e980f87f84e1d14f376}
+
+\item 
+\hypertarget{struct_game_state_a2243609aabbc16a264e071154b3f5ea4}{}int {\bfseries nb\+Lava\+\_\+blocks}\label{struct_game_state_a2243609aabbc16a264e071154b3f5ea4}
+
+\item 
+\hypertarget{struct_game_state_a900e428bd0816b6fe99e1a6a868134e2}{}\hyperlink{struct_gold}{Gold} $\ast$ {\bfseries golds}\label{struct_game_state_a900e428bd0816b6fe99e1a6a868134e2}
+
+\item 
+\hypertarget{struct_game_state_ad3d3dc47d6e81b24c22fc0f6e9ecd074}{}int {\bfseries nb\+Golds}\label{struct_game_state_ad3d3dc47d6e81b24c22fc0f6e9ecd074}
+
+\item 
+\hypertarget{struct_game_state_a8e05ccb26822848a35800e4a91c01126}{}\hyperlink{struct_dynamite}{Dynamite} $\ast$ {\bfseries dynamites}\label{struct_game_state_a8e05ccb26822848a35800e4a91c01126}
+
+\item 
+\hypertarget{struct_game_state_ab182dff09ec3f423a0bce787d636b601}{}int {\bfseries nb\+Dynamites}\label{struct_game_state_ab182dff09ec3f423a0bce787d636b601}
+
+\item 
+\hypertarget{struct_game_state_ab6571f5395bf61ef37ff41f4a9dd55b2}{}\hyperlink{struct_enemy}{Enemy} $\ast$ {\bfseries snake}\label{struct_game_state_ab6571f5395bf61ef37ff41f4a9dd55b2}
+
+\item 
+\hypertarget{struct_game_state_a14bad4b33e0556e1e22af7d51fcc7111}{}int {\bfseries nb\+Enemies}\label{struct_game_state_a14bad4b33e0556e1e22af7d51fcc7111}
+
+\item 
+\hypertarget{struct_game_state_a467ec19ca07eefe983af8a538a83c178}{}\hyperlink{struct_portal}{Portal} {\bfseries gate}\label{struct_game_state_a467ec19ca07eefe983af8a538a83c178}
+
+\item 
+\hypertarget{struct_game_state_af7a72116eda20462cb7d9f6102989461}{}S\+D\+L\+\_\+\+Texture $\ast$ {\bfseries sheet\+Texture}\label{struct_game_state_af7a72116eda20462cb7d9f6102989461}
+
+\item 
+\hypertarget{struct_game_state_ad5aa89eaaa6f94e5282aa3f6277b745a}{}S\+D\+L\+\_\+\+Texture $\ast$ {\bfseries background\+Texture}\label{struct_game_state_ad5aa89eaaa6f94e5282aa3f6277b745a}
+
+\item 
+\hypertarget{struct_game_state_a37a176ae4f6c931abd123dcf6913bfd0}{}int {\bfseries music\+Channel}\label{struct_game_state_a37a176ae4f6c931abd123dcf6913bfd0}
+
+\item 
+\hypertarget{struct_game_state_a2880aa762d3ca9643384f33f83c3f47c}{}Mix\+\_\+\+Chunk $\ast$ {\bfseries bg\+Music}\label{struct_game_state_a2880aa762d3ca9643384f33f83c3f47c}
+
+\item 
+\hypertarget{struct_game_state_af764f3f2572ed5e76489a4bb22a38246}{}Mix\+\_\+\+Chunk $\ast$ {\bfseries die\+Sound}\label{struct_game_state_af764f3f2572ed5e76489a4bb22a38246}
+
+\item 
+\hypertarget{struct_game_state_a2ab6cf1aef7c2ee82eb5aafd509dd94f}{}Mix\+\_\+\+Chunk $\ast$ {\bfseries jump\+Sound}\label{struct_game_state_a2ab6cf1aef7c2ee82eb5aafd509dd94f}
+
+\item 
+\hypertarget{struct_game_state_ae89f357dfd95489765f4d2da255da76b}{}Mix\+\_\+\+Chunk $\ast$ {\bfseries bomb\+Sound}\label{struct_game_state_ae89f357dfd95489765f4d2da255da76b}
+
+\item 
+\hypertarget{struct_game_state_ae55a9efc5054f09a58637abd53814f0f}{}Mix\+\_\+\+Chunk $\ast$ {\bfseries gold\+Sound}\label{struct_game_state_ae55a9efc5054f09a58637abd53814f0f}
+
+\item 
+\hypertarget{struct_game_state_a42715f65f02da52edc5b22021d8ae670}{}int {\bfseries time}\label{struct_game_state_a42715f65f02da52edc5b22021d8ae670}
+
+\item 
+\hypertarget{struct_game_state_a966da7a60c4ea3ba301e26ccc5efe452}{}S\+D\+L\+\_\+\+Renderer $\ast$ {\bfseries renderer}\label{struct_game_state_a966da7a60c4ea3ba301e26ccc5efe452}
+
+\item 
+\hypertarget{struct_game_state_aaa8e409e04dcf575ef63fd5fb3db06f9}{}S\+D\+L\+\_\+\+Window $\ast$ {\bfseries window}\label{struct_game_state_aaa8e409e04dcf575ef63fd5fb3db06f9}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{struct_game_state}{Game\+State}\+: c\textquotesingle{}est le module central qui gère le chargement des niveaux, des éléments du décors, gère les collisions et réajuste les déplacements élémentaires dx, dy . C\textquotesingle{}est le noyau du jeu qui traite les informations reçus par les modules périphiriques, ce module est composé d\textquotesingle{}une structure de tableau de structures ou de structures, ce qui a rendu complexe l\textquotesingle{}integration des mutatteurs et poser des problèmes de dépendance cerculaire dans l\textquotesingle{}inclusion des fichier headers. Ayant réalisé ce fait trop tardivement nous n\textquotesingle{}avons pas pu respecter les modalitées de conceptions. Néanmoins nous avons mit un exemple de muttateur qui accéde au champ d\textquotesingle{}une des case de structure appartenent à une structure. Enfin l\textquotesingle{}avantage de passer par cette structure regroupant les sous structures est de pouvoir comprendre plus facilement le code a mesure qu\textquotesingle{}on le produit. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_game_state_8h}{Game\+State.\+h}\end{DoxyCompactItemize}

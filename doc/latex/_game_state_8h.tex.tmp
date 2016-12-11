@@ -1,0 +1,233 @@
+\hypertarget{_game_state_8h}{}\section{Game\+State.\+h File Reference}
+\label{_game_state_8h}\index{Game\+State.\+h@{Game\+State.\+h}}
+
+
+Fichier entête du module \hyperlink{struct_game_state}{Game\+State}.  
+
+
+{\ttfamily \#include \char`\"{}S\+D\+L2/\+S\+D\+L\+\_\+mixer.\+h\char`\"{}}\\*
+Include dependency graph for Game\+State.\+h\+:
+% FIG 0
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_game_state}{Game\+State}
+\begin{DoxyCompactList}\small\item\em \hyperlink{struct_game_state}{Game\+State}\+: c\textquotesingle{}est le module central qui gère le chargement des niveaux, des éléments du décors, gère les collisions et réajuste les déplacements élémentaires dx, dy . C\textquotesingle{}est le noyau du jeu qui traite les informations reçus par les modules périphiriques, ce module est composé d\textquotesingle{}une structure de tableau de structures ou de structures, ce qui a rendu complexe l\textquotesingle{}integration des mutatteurs et poser des problèmes de dépendance cerculaire dans l\textquotesingle{}inclusion des fichier headers. Ayant réalisé ce fait trop tardivement nous n\textquotesingle{}avons pas pu respecter les modalitées de conceptions. Néanmoins nous avons mit un exemple de muttateur qui accéde au champ d\textquotesingle{}une des case de structure appartenent à une structure. Enfin l\textquotesingle{}avantage de passer par cette structure regroupant les sous structures est de pouvoir comprendre plus facilement le code a mesure qu\textquotesingle{}on le produit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{_game_state_8h_a37d7a4573809f24ccfecdecc39ed0378}{game\+\_\+get\+Ledge\+X} (\hyperlink{struct_game_state}{Game\+State} $\ast$game, int i)
+\begin{DoxyCompactList}\small\item\em game\+\_\+get\+Ledge\+X\+:Accesseur à une structure legde dans le tableau de structure \hyperlink{struct_ledge}{Ledge} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_a59c0e0a524cebb44fd857708f04c6b30}{Set\+Stage\+Num} (\hyperlink{struct_game_state}{Game\+State} $\ast$game, int stage\+Num)
+\begin{DoxyCompactList}\small\item\em Set\+Stage\+Num\+:\char`\"{}\+Initialise le numéro du level chargé\char`\"{}. \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_af25971cd63ff33d83cb840e275e7de18}{init\+Level} (\hyperlink{struct_game_state}{Game\+State} $\ast$game, int level)
+\begin{DoxyCompactList}\small\item\em init\+Level\+:\char`\"{}\+Initialisation du level\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_a9dac148020dd154e121f96f1262eb42a}{load\+Map} (char $\ast$name, \hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em load\+Map\+:\char`\"{}charge dans un tableau 2\+D les entiers qui codent un élément du niveau, compte ce nombre d\textquotesingle{}éléments. Fait une allocation dynamique dans le tas de la taille de ce nombre d\textquotesingle{}elements $\ast$ la taille de la structure asscosiée a cette élément. Initialise les tableaux de structures associés a ces éléments. Stocke dans les champs de ces structures la coordonnée $\ast$ la largeur respectivement la hauteur d\textquotesingle{}un sprite élémentaire pour avoir une correspendance entre la position de cet élément dans le fichier avec résolution de la fenêtre. Initialise éventuellement le type du sprite pour le chargement d\textquotesingle{}une texture et le compteur pour les frames d\textquotesingle{}annimations. enfin ferme le fichier et efface le tableau 2\+D\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_a8e2330453c9563a10e467f399f6ba57d}{load\+Game} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em load\+Game\+:\char`\"{}charge la feuille de sprite, les son, et le chemin relatif vers le niveau a charger \char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_adb23e0ff04d822f1c776c6efc42dbbee}{process} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em process\+:\char`\"{}\+Gère la gravité des éléments du niveau et leurs compteurs de frames d\textquotesingle{}animations (dynamites -\/ serpents -\/ blocks de laves), met a jour les coordonnées des enemis et du joueur, incrémente la variable de temps de l\textquotesingle{}état du jeu.\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_a20448fbddc7e357b41e518b3483e9b0a}{collision\+Detect} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em pcollision\+Detect\+:\char`\"{}fonction importante de collision du personnage avec les éléments du décors\+: si le personnage ramasse un lingo -\/ si le personnage passe sur une echelle -\/ si le personnage se cogne la tête -\/ s\textquotesingle{}il attirie sur une platforme -\/ s\textquotesingle{}il se cogne contre un mur. Ces détéction de collision metent a jour les flages de la structure joueur(aussi celle des serpents ). les flages identifie un état dans lequel se trouve la structure.\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_a2425a5c3d866d0bf8dee25255455b654}{update\+Man\+Position} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em update\+Man\+Position\+:\char`\"{}\+Prend en compte les deplacements élémentaire valider ou modifier par les fonctions précédentes pour mettre a jour les coordonnés du personnage et les compteurs de frames d\textquotesingle{}annimations en vue d\textquotesingle{}un raffrichissement de la fenetre d\textquotesingle{}affichage.\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_state_8h_ab3e53b94caf9bf92ff6b24b6bd923bb6}{collide2d\+Snakes} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em collide2d\+Snakes\+:\char`\"{}détections des collisions du serpent avec les éléments du décors\char`\"{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Fichier entête du module \hyperlink{struct_game_state}{Game\+State}. 
+
+\begin{DoxyAuthor}{Author}
+Alexandre H\+A\+S\+S\+L\+E\+R Idir D\+J\+E\+M\+A\+O\+U\+N\+E Eloi P\+O\+Y\+E\+T 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+23 M\+A\+I 2016 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_game_state_8h_ab3e53b94caf9bf92ff6b24b6bd923bb6}{}\index{Game\+State.\+h@{Game\+State.\+h}!collide2d\+Snakes@{collide2d\+Snakes}}
+\index{collide2d\+Snakes@{collide2d\+Snakes}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{collide2d\+Snakes}]{\setlength{\rightskip}{0pt plus 5cm}void collide2d\+Snakes (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_ab3e53b94caf9bf92ff6b24b6bd923bb6}
+
+
+collide2d\+Snakes\+:\char`\"{}détections des collisions du serpent avec les éléments du décors\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_a20448fbddc7e357b41e518b3483e9b0a}{}\index{Game\+State.\+h@{Game\+State.\+h}!collision\+Detect@{collision\+Detect}}
+\index{collision\+Detect@{collision\+Detect}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{collision\+Detect}]{\setlength{\rightskip}{0pt plus 5cm}void collision\+Detect (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_a20448fbddc7e357b41e518b3483e9b0a}
+
+
+pcollision\+Detect\+:\char`\"{}fonction importante de collision du personnage avec les éléments du décors\+: si le personnage ramasse un lingo -\/ si le personnage passe sur une echelle -\/ si le personnage se cogne la tête -\/ s\textquotesingle{}il attirie sur une platforme -\/ s\textquotesingle{}il se cogne contre un mur. Ces détéction de collision metent a jour les flages de la structure joueur(aussi celle des serpents ). les flages identifie un état dans lequel se trouve la structure.\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_a37d7a4573809f24ccfecdecc39ed0378}{}\index{Game\+State.\+h@{Game\+State.\+h}!game\+\_\+get\+Ledge\+X@{game\+\_\+get\+Ledge\+X}}
+\index{game\+\_\+get\+Ledge\+X@{game\+\_\+get\+Ledge\+X}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{game\+\_\+get\+Ledge\+X}]{\setlength{\rightskip}{0pt plus 5cm}int game\+\_\+get\+Ledge\+X (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game, }
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_a37d7a4573809f24ccfecdecc39ed0378}
+
+
+game\+\_\+get\+Ledge\+X\+:Accesseur à une structure legde dans le tableau de structure \hyperlink{struct_ledge}{Ledge} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\mbox{\tt in}  & {\em i} & la position dans le tableau de structure \hyperlink{struct_ledge}{Ledge} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_af25971cd63ff33d83cb840e275e7de18}{}\index{Game\+State.\+h@{Game\+State.\+h}!init\+Level@{init\+Level}}
+\index{init\+Level@{init\+Level}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{init\+Level}]{\setlength{\rightskip}{0pt plus 5cm}void init\+Level (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game, }
+\item[{int}]{level}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_af25971cd63ff33d83cb840e275e7de18}
+
+
+init\+Level\+:\char`\"{}\+Initialisation du level\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\mbox{\tt in}  & {\em level} & le numéro du level à initialiser \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_a8e2330453c9563a10e467f399f6ba57d}{}\index{Game\+State.\+h@{Game\+State.\+h}!load\+Game@{load\+Game}}
+\index{load\+Game@{load\+Game}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{load\+Game}]{\setlength{\rightskip}{0pt plus 5cm}void load\+Game (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_a8e2330453c9563a10e467f399f6ba57d}
+
+
+load\+Game\+:\char`\"{}charge la feuille de sprite, les son, et le chemin relatif vers le niveau a charger \char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_a9dac148020dd154e121f96f1262eb42a}{}\index{Game\+State.\+h@{Game\+State.\+h}!load\+Map@{load\+Map}}
+\index{load\+Map@{load\+Map}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{load\+Map}]{\setlength{\rightskip}{0pt plus 5cm}void load\+Map (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{name, }
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_a9dac148020dd154e121f96f1262eb42a}
+
+
+load\+Map\+:\char`\"{}charge dans un tableau 2\+D les entiers qui codent un élément du niveau, compte ce nombre d\textquotesingle{}éléments. Fait une allocation dynamique dans le tas de la taille de ce nombre d\textquotesingle{}elements $\ast$ la taille de la structure asscosiée a cette élément. Initialise les tableaux de structures associés a ces éléments. Stocke dans les champs de ces structures la coordonnée $\ast$ la largeur respectivement la hauteur d\textquotesingle{}un sprite élémentaire pour avoir une correspendance entre la position de cet élément dans le fichier avec résolution de la fenêtre. Initialise éventuellement le type du sprite pour le chargement d\textquotesingle{}une texture et le compteur pour les frames d\textquotesingle{}annimations. enfin ferme le fichier et efface le tableau 2\+D\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em name} & tableau de caractères \\
+\hline
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_adb23e0ff04d822f1c776c6efc42dbbee}{}\index{Game\+State.\+h@{Game\+State.\+h}!process@{process}}
+\index{process@{process}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{process}]{\setlength{\rightskip}{0pt plus 5cm}void process (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_adb23e0ff04d822f1c776c6efc42dbbee}
+
+
+process\+:\char`\"{}\+Gère la gravité des éléments du niveau et leurs compteurs de frames d\textquotesingle{}animations (dynamites -\/ serpents -\/ blocks de laves), met a jour les coordonnées des enemis et du joueur, incrémente la variable de temps de l\textquotesingle{}état du jeu.\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_a59c0e0a524cebb44fd857708f04c6b30}{}\index{Game\+State.\+h@{Game\+State.\+h}!Set\+Stage\+Num@{Set\+Stage\+Num}}
+\index{Set\+Stage\+Num@{Set\+Stage\+Num}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{Set\+Stage\+Num}]{\setlength{\rightskip}{0pt plus 5cm}void Set\+Stage\+Num (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game, }
+\item[{int}]{stage\+Num}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_a59c0e0a524cebb44fd857708f04c6b30}
+
+
+Set\+Stage\+Num\+:\char`\"{}\+Initialise le numéro du level chargé\char`\"{}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\mbox{\tt in}  & {\em stage\+Num} & le numéro du level à charger \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_state_8h_a2425a5c3d866d0bf8dee25255455b654}{}\index{Game\+State.\+h@{Game\+State.\+h}!update\+Man\+Position@{update\+Man\+Position}}
+\index{update\+Man\+Position@{update\+Man\+Position}!Game\+State.\+h@{Game\+State.\+h}}
+\subsubsection[{update\+Man\+Position}]{\setlength{\rightskip}{0pt plus 5cm}void update\+Man\+Position (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_state_8h_a2425a5c3d866d0bf8dee25255455b654}
+
+
+update\+Man\+Position\+:\char`\"{}\+Prend en compte les deplacements élémentaire valider ou modifier par les fonctions précédentes pour mettre a jour les coordonnés du personnage et les compteurs de frames d\textquotesingle{}annimations en vue d\textquotesingle{}un raffrichissement de la fenetre d\textquotesingle{}affichage.\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}

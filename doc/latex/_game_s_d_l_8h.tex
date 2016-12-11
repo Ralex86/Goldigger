@@ -1,0 +1,318 @@
+\hypertarget{_game_s_d_l_8h}{}\section{Game\+S\+D\+L.\+h File Reference}
+\label{_game_s_d_l_8h}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+
+
+Fichier entête du module Game\+S\+D\+L.\+c.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{_game_s_d_l_8h_a3c7182476cf2f91dae9f0b9ece81f3c1}{process\+Events} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em process\+Events\+: \char`\"{}\+Gestion des évenements associés au clavier dont la logique dépend de l\textquotesingle{}état dans le quel se trouve la structure Man.\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a9b5ff5810dcb2a973540896eb70f56ee}{do\+Render} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+: \char`\"{}\+Actualise le pointeur de rendu sur S\+D\+L et montre à l\textquotesingle{}ecran ce qu\textquotesingle{}on a dessiné\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_ab7ac92431c0d6b3ae75531a60afad999}{init\+S\+D\+L} (\hyperlink{struct_game_state}{Game\+State} $\ast$game\+State)
+\begin{DoxyCompactList}\small\item\em init\+S\+D\+L\+:\char`\"{} initialisation des variables propres a S\+D\+L. On declare une fenêtre, un pointeur sur rendu, on initialise la video et l\textquotesingle{}audio, on definie les caractèristiques de la fenetre\+: sa largeur et sa position, on passe le pointeur sur la fenêtre et sur le rendu a la structure centrale Game\+State\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a304752383f6dc7b078606158d24bbfbc}{game\+Loop} (\hyperlink{struct_game_state}{Game\+State} $\ast$game\+State, int level\+M\+A\+X)
+\begin{DoxyCompactList}\small\item\em game\+Loop\+:\char`\"{} On commence au niveau\textquotesingle{}1\textquotesingle{}, on charge l\textquotesingle{}etat du jeu, on initialise la musique de fond. Tant qu\textquotesingle{}on a pas atteint le dernier niveau on boucle dans une sous boucle évenementielle. Celci contient quatre étapes\+:\+Les evénements du clavier, les événements du niveau, les détections de collisions, enfin le rendu a l\textquotesingle{}ecran . L\textquotesingle{}\+I\+H\+M gère des déplacements élémentaires qui sont verifiers et eventuellement corrigés par la fonction de détection de collision\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a685deff2f38b2656b1264cd618846a63}{destroy\+Level} (\hyperlink{struct_game_state}{Game\+State} $\ast$game\+State)
+\begin{DoxyCompactList}\small\item\em destroy\+Level\+:\char`\"{}\+Testament d\textquotesingle{}un niveau et de ses allocations dynamiques, déstruction également de la texture S\+D\+L de fond.\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a0cf4e580f20c79f6b7e2b775d993a275}{destroy\+S\+D\+L} (\hyperlink{struct_game_state}{Game\+State} $\ast$game\+State)
+\begin{DoxyCompactList}\small\item\em destroy\+S\+D\+L\+:\char`\"{}\+Testament de l\textquotesingle{}\+I\+H\+M S\+D\+L\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_ae5f8492aa6c2885a0e3fd3b074f7082e}{do\+Render\+Ledges} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Ledges\+:\char`\"{}affichage des sprites associés au platformes\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a73b04963e2faa1b4a81a62f97be3eae7}{do\+Render\+Lava\+\_\+blocks} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Lava\+\_\+blocks\+:\char`\"{}affichage des sprites associés au bloques de lave\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_ab2c7985b3c7a92214c89140398ef24c6}{do\+Render\+Ladder} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Ladder\+:\char`\"{}affichage des sprites associés au échelles\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_ac60592932df607c9ed59229e0a0dc4e3}{do\+Render\+Gold} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Gold\+:\char`\"{}affichage des sprites associés au lingos d\textquotesingle{}or\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a809920a29062f48d1c21a2df2c055ebe}{do\+Render\+Portal} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Portal\+:\char`\"{}affichage des sprites associés au portails\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_afced9005ab817d8ad72d8bffe540b4f0}{do\+Render\+Man} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Man\+:\char`\"{}affichage des sprites associés au Man\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_ae2e9d7b27c9e88cdd662b634dc665749}{do\+Render\+Dynamite} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Dynamite\+:\char`\"{}affichage des sprites associés au dynamites\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{_game_s_d_l_8h_a2b00cc8438c2301f0513afbe9aa1fdd3}{do\+Render\+Enemies} (\hyperlink{struct_game_state}{Game\+State} $\ast$game)
+\begin{DoxyCompactList}\small\item\em do\+Render\+Enemies\+:\char`\"{}affichage des sprites associés au enemis\char`\"{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Fichier entête du module Game\+S\+D\+L.\+c. 
+
+\begin{DoxyAuthor}{Author}
+Alexandre H\+A\+S\+S\+L\+E\+R Idir D\+J\+E\+M\+A\+O\+U\+N\+E Eloi P\+O\+Y\+E\+T 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+23 M\+A\+I 2016 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_game_s_d_l_8h_a685deff2f38b2656b1264cd618846a63}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!destroy\+Level@{destroy\+Level}}
+\index{destroy\+Level@{destroy\+Level}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{destroy\+Level}]{\setlength{\rightskip}{0pt plus 5cm}void destroy\+Level (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game\+State}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a685deff2f38b2656b1264cd618846a63}
+
+
+destroy\+Level\+:\char`\"{}\+Testament d\textquotesingle{}un niveau et de ses allocations dynamiques, déstruction également de la texture S\+D\+L de fond.\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game\+State} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_a0cf4e580f20c79f6b7e2b775d993a275}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!destroy\+S\+D\+L@{destroy\+S\+D\+L}}
+\index{destroy\+S\+D\+L@{destroy\+S\+D\+L}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{destroy\+S\+D\+L}]{\setlength{\rightskip}{0pt plus 5cm}void destroy\+S\+D\+L (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game\+State}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a0cf4e580f20c79f6b7e2b775d993a275}
+
+
+destroy\+S\+D\+L\+:\char`\"{}\+Testament de l\textquotesingle{}\+I\+H\+M S\+D\+L\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game\+State} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_a9b5ff5810dcb2a973540896eb70f56ee}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render@{do\+Render}}
+\index{do\+Render@{do\+Render}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a9b5ff5810dcb2a973540896eb70f56ee}
+
+
+do\+Render\+: \char`\"{}\+Actualise le pointeur de rendu sur S\+D\+L et montre à l\textquotesingle{}ecran ce qu\textquotesingle{}on a dessiné\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_ae2e9d7b27c9e88cdd662b634dc665749}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Dynamite@{do\+Render\+Dynamite}}
+\index{do\+Render\+Dynamite@{do\+Render\+Dynamite}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Dynamite}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Dynamite (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_ae2e9d7b27c9e88cdd662b634dc665749}
+
+
+do\+Render\+Dynamite\+:\char`\"{}affichage des sprites associés au dynamites\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em im} & pointeur sur game \\
+\hline
+\end{DoxyParams}
+\hypertarget{_game_s_d_l_8h_a2b00cc8438c2301f0513afbe9aa1fdd3}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Enemies@{do\+Render\+Enemies}}
+\index{do\+Render\+Enemies@{do\+Render\+Enemies}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Enemies}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Enemies (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a2b00cc8438c2301f0513afbe9aa1fdd3}
+
+
+do\+Render\+Enemies\+:\char`\"{}affichage des sprites associés au enemis\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_ac60592932df607c9ed59229e0a0dc4e3}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Gold@{do\+Render\+Gold}}
+\index{do\+Render\+Gold@{do\+Render\+Gold}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Gold}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_ac60592932df607c9ed59229e0a0dc4e3}
+
+
+do\+Render\+Gold\+:\char`\"{}affichage des sprites associés au lingos d\textquotesingle{}or\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_ab2c7985b3c7a92214c89140398ef24c6}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Ladder@{do\+Render\+Ladder}}
+\index{do\+Render\+Ladder@{do\+Render\+Ladder}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Ladder}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Ladder (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_ab2c7985b3c7a92214c89140398ef24c6}
+
+
+do\+Render\+Ladder\+:\char`\"{}affichage des sprites associés au échelles\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_a73b04963e2faa1b4a81a62f97be3eae7}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Lava\+\_\+blocks@{do\+Render\+Lava\+\_\+blocks}}
+\index{do\+Render\+Lava\+\_\+blocks@{do\+Render\+Lava\+\_\+blocks}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Lava\+\_\+blocks}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Lava\+\_\+blocks (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a73b04963e2faa1b4a81a62f97be3eae7}
+
+
+do\+Render\+Lava\+\_\+blocks\+:\char`\"{}affichage des sprites associés au bloques de lave\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_ae5f8492aa6c2885a0e3fd3b074f7082e}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Ledges@{do\+Render\+Ledges}}
+\index{do\+Render\+Ledges@{do\+Render\+Ledges}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Ledges}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Ledges (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_ae5f8492aa6c2885a0e3fd3b074f7082e}
+
+
+do\+Render\+Ledges\+:\char`\"{}affichage des sprites associés au platformes\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game\+State} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_afced9005ab817d8ad72d8bffe540b4f0}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Man@{do\+Render\+Man}}
+\index{do\+Render\+Man@{do\+Render\+Man}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Man}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Man (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_afced9005ab817d8ad72d8bffe540b4f0}
+
+
+do\+Render\+Man\+:\char`\"{}affichage des sprites associés au Man\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_a809920a29062f48d1c21a2df2c055ebe}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!do\+Render\+Portal@{do\+Render\+Portal}}
+\index{do\+Render\+Portal@{do\+Render\+Portal}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{do\+Render\+Portal}]{\setlength{\rightskip}{0pt plus 5cm}void do\+Render\+Portal (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a809920a29062f48d1c21a2df2c055ebe}
+
+
+do\+Render\+Portal\+:\char`\"{}affichage des sprites associés au portails\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_a304752383f6dc7b078606158d24bbfbc}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!game\+Loop@{game\+Loop}}
+\index{game\+Loop@{game\+Loop}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{game\+Loop}]{\setlength{\rightskip}{0pt plus 5cm}void game\+Loop (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game\+State, }
+\item[{int}]{level\+M\+A\+X}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a304752383f6dc7b078606158d24bbfbc}
+
+
+game\+Loop\+:\char`\"{} On commence au niveau\textquotesingle{}1\textquotesingle{}, on charge l\textquotesingle{}etat du jeu, on initialise la musique de fond. Tant qu\textquotesingle{}on a pas atteint le dernier niveau on boucle dans une sous boucle évenementielle. Celci contient quatre étapes\+:\+Les evénements du clavier, les événements du niveau, les détections de collisions, enfin le rendu a l\textquotesingle{}ecran . L\textquotesingle{}\+I\+H\+M gère des déplacements élémentaires qui sont verifiers et eventuellement corrigés par la fonction de détection de collision\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game\+State} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\mbox{\tt in}  & {\em nombre} & de niveaux du jeu de type entier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_ab7ac92431c0d6b3ae75531a60afad999}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!init\+S\+D\+L@{init\+S\+D\+L}}
+\index{init\+S\+D\+L@{init\+S\+D\+L}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{init\+S\+D\+L}]{\setlength{\rightskip}{0pt plus 5cm}void init\+S\+D\+L (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game\+State}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_ab7ac92431c0d6b3ae75531a60afad999}
+
+
+init\+S\+D\+L\+:\char`\"{} initialisation des variables propres a S\+D\+L. On declare une fenêtre, un pointeur sur rendu, on initialise la video et l\textquotesingle{}audio, on definie les caractèristiques de la fenetre\+: sa largeur et sa position, on passe le pointeur sur la fenêtre et sur le rendu a la structure centrale Game\+State\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game\+State} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{_game_s_d_l_8h_a3c7182476cf2f91dae9f0b9ece81f3c1}{}\index{Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}!process\+Events@{process\+Events}}
+\index{process\+Events@{process\+Events}!Game\+S\+D\+L.\+h@{Game\+S\+D\+L.\+h}}
+\subsubsection[{process\+Events}]{\setlength{\rightskip}{0pt plus 5cm}int process\+Events (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+State} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\label{_game_s_d_l_8h_a3c7182476cf2f91dae9f0b9ece81f3c1}
+
+
+process\+Events\+: \char`\"{}\+Gestion des évenements associés au clavier dont la logique dépend de l\textquotesingle{}état dans le quel se trouve la structure Man.\char`\"{} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em game} & pointeur sur \hyperlink{struct_game_state}{Game\+State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
