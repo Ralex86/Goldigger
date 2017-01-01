@@ -193,7 +193,7 @@ void initLevel(GameState *game, int level)
   if(level == 1)
   {
     //charge le background
-    SDL_Surface *bg = IMG_Load("files/cave-background.jpg");
+    SDL_Surface *bg = IMG_Load("files/images/cave-background.jpg");
     game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
     SDL_FreeSurface(bg);
 
@@ -233,7 +233,7 @@ void initLevel(GameState *game, int level)
   if(level == 2)
   {
     //charge le background
-    SDL_Surface *bg = IMG_Load("files/snowy-background.jpg");
+    SDL_Surface *bg = IMG_Load("files/images/snowy-background.jpg");
     game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
     SDL_FreeSurface(bg);
 
@@ -273,7 +273,7 @@ void initLevel(GameState *game, int level)
   if(level == 3)
   {
     //charge le background
-    SDL_Surface *bg = IMG_Load("files/snowy-background.jpg");
+    SDL_Surface *bg = IMG_Load("files/images/snowy-background.jpg");
     game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
     SDL_FreeSurface(bg);
 
@@ -313,7 +313,7 @@ void initLevel(GameState *game, int level)
   if(level == 4)
   {
     //charge le background
-    SDL_Surface *bg = IMG_Load("files/cave-background2.jpg");
+    SDL_Surface *bg = IMG_Load("files/images/cave-background2.jpg");
     game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
     SDL_FreeSurface(bg);
 
@@ -360,7 +360,7 @@ void SetStageNum(GameState *game, int stageNum)
 void loadGame(GameState *game)
 {
   SDL_Surface *surface = NULL;
-  surface = IMG_Load("files/Sprites.png");
+  surface = IMG_Load("files/images/Sprites.png");
   
   if(surface == NULL)
   {
@@ -371,22 +371,22 @@ void loadGame(GameState *game)
   
   game->sheetTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
   SDL_FreeSurface(surface);
-  game->bgMusic = Mix_LoadWAV("files/indiana.wav");
+  game->bgMusic = Mix_LoadWAV("files/audio/indiana.wav");
   
   if(game->bgMusic != NULL)
   {
     Mix_VolumeChunk(game->bgMusic, 16);
   }
   
-  game->dieSound = Mix_LoadWAV("files/die.wav");
-  game->jumpSound = Mix_LoadWAV("files/jump.wav");
-  game->bombSound = Mix_LoadWAV("files/Bomb.wav");
-  game->goldSound = Mix_LoadWAV("files/gold.wav");
+  game->dieSound = Mix_LoadWAV("files/audio/die.wav");
+  game->jumpSound = Mix_LoadWAV("files/audio/jump.wav");
+  game->bombSound = Mix_LoadWAV("files/audio/Bomb.wav");
+  game->goldSound = Mix_LoadWAV("files/audio/gold.wav");
 
   initLevel(game,game->stageNum);
 
   char levelPath[20];
-  sprintf(levelPath,"files/level%d",game->stageNum);
+  sprintf(levelPath,"files/levels/level%d",game->stageNum);
 
   loadMap(levelPath,game);
 }
