@@ -1,0 +1,7 @@
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/install/local.dir
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/rebuild_cache.dir
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/edit_cache.dir
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/install/strip.dir
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/install.dir
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/list_install_components.dir
+/Users/persie_joseph/dev/www/games/Goldigger/build/CMakeFiles/goldigger.dir
