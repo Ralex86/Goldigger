@@ -12,9 +12,9 @@
 ---
 ###I. Manuel.
 ---
-- Compilation: Depuis le terminale: "make" puis "make run"
+- Compilation: Depuis le terminale: `make`
 
-- Exécution: "./build/goldigger"
+- Exécution: `make run`
 
 - Règles du jeu: Le joueur doit ramasser des lingots d’or présents dans le niveau pour déverrouiller le portail lui ouvrant l’accès au niveau suivant. 
 Il doit pour cela éviter des ennemis (serpent), et divers pièges (lave, vide à sauter, blocs à casser).
