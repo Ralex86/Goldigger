@@ -9,11 +9,9 @@
              ░     ░ ░      ░  ░   ░     ░        ░       ░    ░  ░   ░     
                                  ░                                          
 
-
-—————————————————————————————————————————————————————————————————————————————————————
-I. Manuel.
-—————————————————————————————————————————————————————————————————————————————————————
-
+---
+###I. Manuel.
+---
 - Compilation: Depuis le terminale: "make" puis "make run"
 
 - Exécution: "./build/goldigger"
@@ -31,9 +29,9 @@ Le jeu se termine lorsque le joueur à parcouru tout les niveaux. Il y’a pour 
 	— Shift: poser une dynamite pour casser un bloc
 	- Espace: sauter
 
-—————————————————————————————————————————————————————————————————————————————————————
-II. Fonctionnalités du jeu.
-—————————————————————————————————————————————————————————————————————————————————————
+---
+###II. Fonctionnalités du jeu.
+---
 
 - il s’agit d’un jeu de plateforme classique basé sur un TileMap classique smooth
 - le moteur autorise un certain degré de liberté au joueur
@@ -42,18 +40,18 @@ II. Fonctionnalités du jeu.
 - le décors est destructible en posant des dynamites avec la touche left shift
 - les niveaux sont chargés à partir de fichier texte suivant un format de donnée : un int = un sprite
 
-—————————————————————————————————————————————————————————————————————————————————————
-III. Organisation de l’archive.
-—————————————————————————————————————————————————————————————————————————————————————
+---
+###III. Organisation de l’archive.
+---
 
 Les fichiers sources se trouvent dans le répertoire "src" de l’archive.
 Les fichiers images/audio (assets) se trouvent dans le répertoire data.
 La documentation se trouve dans le répertoire doc et comprend: une présentation pdf, le diagramme des modules, le diagramme de Gantt, ainsi que la documentation du code.
 Le Makefile 
 
-—————————————————————————————————————————————————————————————————————————————————————
-IV. Auteurs.
-—————————————————————————————————————————————————————————————————————————————————————
+---
+###IV. Auteurs.
+---
 Alexandre Hassler
 Idir Djemaoune
 Eloi Poyet
