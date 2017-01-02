@@ -98,8 +98,6 @@ void loadMap(char *name, GameState *game)
 
     }
   }
-  //printf("%d\n",game->nbLedges);
-
 
   game->ledges = (Ledge*) malloc(game->nbLedges*sizeof(Ledge)); 
   assert(game->ledges != NULL);
@@ -189,166 +187,42 @@ void loadMap(char *name, GameState *game)
 
 void initLevel(GameState *game, int level)
 {
-  SDL_Surface *surface = NULL;
+  game->nbLedges = 0;
+  game->nbLadders = 0;
+  game->nbLava_blocks = 0;
+  game->nbGolds = 0;
+  game->nbDynamites = 0;
+  game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
+  assert(game->dynamites!= NULL); 
+  game->nbEnemies = 0;
+  game->mapGravity = 0.55;
+  game->mapDimX = 20;
+  game->mapDimY = 10;
+  game->time = 0;
+  
   if(level == 1)
   {
-    //charge le background
-    SDL_Surface *bg = IMG_Load("files/images/cave-background.jpg");
-    game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-    SDL_FreeSurface(bg);
-
-    // initialisation des elements decors
-    game->man.x = 240;
-    game->man.y = 540;
-    game->man.dx = 0;
-    game->man.dy = 0;
-    game->man.w = 48;
-    game->man.h = 64;
-    game->man.onLedge = 0;
-    game->man.onLadder = 0;
-    game->man.animFrame = 0;
-    game->man.animFrame_onLadder = 0;
-    game->man.facingLeft = 0;
-    game->man.slowingDown = 0;
-    game->man.walking = 0;
-    game->man.jumping = 0;
-    game->man.climbing = 0;
-    // pas oublier d'initialiser les compter dechelles et de ledges
-    game->nbLedges = 0;
-    game->nbLadders = 0;
-    game->nbLava_blocks = 0;
-    game->nbGolds = 0;
-    game->man.manGold = 0;
-    game->nbDynamites = 0;
-    game->man.manDynamites = 10;
-    game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
-    assert(game->dynamites!= NULL); 
-    game->nbEnemies = 0;
-    game->mapGravity = 0.55;
-    game->mapDimX = 20;
-    game->mapDimY = 10;
-    game->time = 0;
+    setLevelBackground(game, "files/images/cave-background.jpg");
+    initManLevel(&game->man);
   }
-
-  if(level == 2)
+  else if(level == 2)
   {
-    //charge le background
-    SDL_Surface *bg = IMG_Load("files/images/snowy-background.jpg");
-    game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-    SDL_FreeSurface(bg);
-
-    // initialisation des elements decors
-    game->man.x = 240;
-    game->man.y = 540;
-    game->man.dx = 0;
-    game->man.dy = 0;
-    game->man.w = 48;
-    game->man.h = 64;
-    game->man.onLedge = 0;
-    game->man.onLadder = 0;
-    game->man.animFrame = 0;
-    game->man.animFrame_onLadder = 0;
+    setLevelBackground(game, "files/images/snowy-background.jpg");
+    initManLevel(&game->man);
     game->man.facingLeft = 1;
-    game->man.slowingDown = 0;
-    game->man.walking = 0;
-    game->man.jumping = 0;
-    game->man.climbing = 0;
-    // pas oublier d'initialiser les compter dechelles et de ledges
-    game->nbLedges = 0;
-    game->nbLadders = 0;
-    game->nbLava_blocks = 0;
-    game->nbGolds = 0;
-    game->man.manGold = 0;
-    game->nbDynamites = 0;
-    game->man.manDynamites = 10;
-    game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
-    assert(game->dynamites!= NULL); 
-    game->nbEnemies = 0;
-    game->mapGravity = 0.55;
-    game->mapDimX = 20;
-    game->mapDimY = 10;
-    game->time = 0;
   }
-
-  if(level == 3)
+  else if(level == 3)
   {
-    //charge le background
-    SDL_Surface *bg = IMG_Load("files/images/snowy-background.jpg");
-    game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-    SDL_FreeSurface(bg);
-
-    // initialisation des elements decors
-    game->man.x = 240;
+    setLevelBackground(game, "files/images/snowy-background.jpg"); 
+    initManLevel(&game->man);
     game->man.y = 380;
-    game->man.dx = 0;
-    game->man.dy = 0;
-    game->man.w = 48;
-    game->man.h = 64;
-    game->man.onLedge = 0;
-    game->man.onLadder = 0;
-    game->man.animFrame = 0;
-    game->man.animFrame_onLadder = 0;
     game->man.facingLeft = 1;
-    game->man.slowingDown = 0;
-    game->man.walking = 0;
-    game->man.jumping = 0;
-    game->man.climbing = 0;
-    // pas oublier d'initialiser les compter dechelles et de ledges
-    game->nbLedges = 0;
-    game->nbLadders = 0;
-    game->nbLava_blocks = 0;
-    game->nbGolds = 0;
-    game->man.manGold = 0;
-    game->nbDynamites = 0;
-    game->man.manDynamites = 10;
-    game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite)); 
-    assert(game->dynamites!= NULL);
-    game->nbEnemies = 0;
-    game->mapGravity = 0.55;
-    game->mapDimX = 20;
-    game->mapDimY = 10;
-    game->time = 0;
   }
-
-  if(level == 4)
+  else if(level == 4)
   {
-    //charge le background
-    SDL_Surface *bg = IMG_Load("files/images/cave-background2.jpg");
-    game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-    SDL_FreeSurface(bg);
-
-
-    // initialisation des elements decors
-    game->man.x = 240;
+    setLevelBackground(game, "files/images/cave-background2.jpg");
+    initManLevel(&game->man);
     game->man.y = 320;
-    game->man.dx = 0;
-    game->man.dy = 0;
-    game->man.w = 48;
-    game->man.h = 64;
-    game->man.onLedge = 0;
-    game->man.onLadder = 0;
-    game->man.animFrame = 0;
-    game->man.animFrame_onLadder = 0;
-    game->man.facingLeft = 0;
-    game->man.slowingDown = 0;
-    game->man.walking = 0;
-    game->man.jumping = 0;
-    game->man.climbing = 0;
-    // pas oublier d'initialiser les compter dechelles et de ledges
-    game->nbLedges = 0;
-    game->nbLadders = 0;
-    game->nbLava_blocks = 0;
-    game->nbGolds = 0;
-    game->man.manGold = 0;
-    game->nbDynamites = 0;
-    game->man.manDynamites = 10;
-    game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
-    assert(game->dynamites!= NULL); 
-    game->nbEnemies = 0;
-    game->mapGravity = 0.55;
-    game->mapDimX = 20;
-    game->mapDimY = 10;
-    game->time = 0;
   }
 }
 
@@ -378,8 +252,6 @@ void loadGame(GameState *game)
     Mix_VolumeChunk(game->bgMusic, 16);
   }
   
-  game->dieSound = Mix_LoadWAV("files/audio/die.wav");
-  game->jumpSound = Mix_LoadWAV("files/audio/jump.wav");
   game->bombSound = Mix_LoadWAV("files/audio/Bomb.wav");
   game->goldSound = Mix_LoadWAV("files/audio/gold.wav");
 
@@ -451,45 +323,54 @@ void process(GameState *game)
 
 void collide2dSnakes(GameState *game)
 {
+  float mw = game->man.w, mh = game->man.h; 
+  float mx = game->man.x, my = game->man.y; 
+
   for(int j=0;j<game->nbEnemies;j++)
   {
-    float mw = game->snake[j].w, mh = game->snake[j].h; // a mettre dans la structure gamestate
-    float mx = game->snake[j].x, my = game->snake[j].y; // a mettre get (mutateur)
-    printf("%f %f %f %f\n",mw,mh,mx,my);
+    float sw = game->snake[j].w, sh = game->snake[j].h; 
+    float sx = game->snake[j].x, sy = game->snake[j].y; 
+
+    if(collide2d(mx,my,sx,sy,mw,mh,sw,sh))
+    {
+      manHurt(&game->man);
+    }
+
+    //control movement of the snakes 
     for(int i = 0; i < game->nbLedges; i++)
     {
       float bx = game->ledges[i].x, by = game->ledges[i].y, bw = game->ledges[i].w, bh = game->ledges[i].h;
 
       if(game->ledges[i].destroyed == 0)
       {
-        if(mx+mw > bx && mx <bx+bw)
+        if(sx+sw > bx && sx <bx+bw)
         {
           //somme nous sur ledge ?
-          if(my+mh > by && my < by)
+          if(sy+sh > by && sy < by)
           {
             //correct y
-            game->snake[j].y = by-mh;
-            my = by-mh;
+            game->snake[j].y = by-sh;
+            sy = by-sh;
           }
         }
 
-        if(my+mh > by && my<by+bh)
+        if(sy+sh > by && sy<by+bh)
         {
-          //se cogne sur bord droit 
-          if(mx < bx+bw && mx+mw > bx+bw)
+          //bumps on right edge
+          if(sx < bx+bw && sx+sw > bx+bw)
           {
             //correct x
             game->snake[j].x = bx+bw;
-            mx = bx+bw;
+            sx = bx+bw;
 
             game->snake[j].facingLeft = 0;
           }
-          //se cogne sur bord gauche
-          else if(mx+mw > bx && mx < bx)
+          //bumps on left edge
+          else if(sx+sw > bx && sx < bx)
           {
             //correct x
-            game->snake[j].x = bx-mw;
-            mx = bx-mw;
+            game->snake[j].x = bx-sw;
+            sx = bx-sw;
 
             game->snake[j].facingLeft = 1;
           }
@@ -504,12 +385,11 @@ void collisionDetect(GameState *game)
   float mw = game->man.w, mh = game->man.h; // a mettre dans la structure gamestate
   float mx = game->man.x, my = game->man.y; // a mettre get (mutateur)
 
-
   //verifie chute
-  if(game->man.y > 700)
-  {
-    Mix_PlayChannel(-1, game->dieSound, 0);
-  }
+//  if(game->man.y > 700)
+//  {
+//    manDies(&game, &man);
+//  }
 
   // est ce quon ramasse un lingot
   for(int i = 0; i < game->nbGolds; i++)
@@ -527,24 +407,16 @@ void collisionDetect(GameState *game)
   //printf("%d \n\n\n",game->nbLadders);
 
   game->man.onLadder = 0;
-  //int found = 0;
   for(int i = 0; i < game->nbLadders; i++)
   {
     float lx = game->ladders[i].x, ly = game->ladders[i].y, lw = game->ladders[i].w, lh = game->ladders[i].h;
     if(collide2dLadder(mx,my,lx,ly,mw,mh,lw,lh))
     {
-      printf("mx:%f my:%f lx:%f ly:%f ladder:%d\n",mx,my,lx,ly,game->man.onLadder);
+      //printf("mx:%f my:%f lx:%f ly:%f ladder:%d\n",mx,my,lx,ly,game->man.onLadder);
       game->man.onLadder = 1;
-      //found = 1;
-      printf("je suis sur l'echelle : %d\n", game->man.onLadder);
       break;
     }
-  } //for
-  /*if(found == 0)
-    {
-    game->man.climbing =0;
-    }*/
-
+  } 
 
   //game->man.onLedge = 0;
   // verifie collision avec snakes/ledges
@@ -614,3 +486,10 @@ void collisionDetect(GameState *game)
     }
   }//for
 }
+
+void setLevelBackground(GameState *game, char* bgImagePath){
+  SDL_Surface *bg = IMG_Load(bgImagePath);
+  game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
+  SDL_FreeSurface(bg);
+}
+

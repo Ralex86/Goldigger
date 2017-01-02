@@ -124,4 +124,6 @@ void doRenderDynamite(GameState *game);
  @return void
  */
 void doRenderEnemies(GameState *game);
+
+
 #endif
