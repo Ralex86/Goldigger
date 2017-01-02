@@ -7,6 +7,11 @@
 
 #ifndef _PLAYER_H
 #define _PLAYER_H
+#if defined (__APPLE__)
+  #include "SDL_mixer.h"
+#else
+  #include "SDL2/SDL_mixer.h"
+#endif
 
 /**
 @struct Man
@@ -18,9 +23,6 @@ typedef struct
   float x, y, w, h;
   float dx, dy;
 
-  int manGold;
-  int manDynamites;
-
   int onLedge;
   int onLadder;
 
@@ -29,11 +31,28 @@ typedef struct
 
   int facingLeft;
   int slowingDown;
-  int climbing;
-  int jumping;
-  int falling;
+
   int walking;
+  int jumping;
+  int climbing;
+  int falling;
+
+  int manGold;
+  int manDynamites;
+
+  unsigned short int health;
+  unsigned short int lifes;
+
+  Mix_Chunk *ouchSound;
+  Mix_Chunk *dieSound;
+  Mix_Chunk *jumpSound;
+
 } Man;
 
+
+void initMan(Man *man);
+void initManLevel(Man *man);
+void manHurt(Man *man);
+void manDies(Man *man);
 
 #endif
