@@ -127,12 +127,11 @@ int processEvents(GameState *game){
     {
       game->man.dy = -8;
       game->man.onLedge = 0;
-      Mix_PlayChannel(-1, game->jumpSound, 0);
+      Mix_PlayChannel(-1, game->man.jumpSound, 0);
     }
 
   }
-
-  if(game->man.climbing)
+  else if(game->man.climbing)
   {
     if(!game->man.onLadder)
     {
@@ -158,125 +157,16 @@ int processEvents(GameState *game){
     }
   }
 
-/*
-  if(game->man.climbing && game->man.onLadder)
-  {
-    if(state[SDL_SCANCODE_UP])
-    {
-      game->man.dy -= 0.6;
-      if(game->man.dy < -6)
-      {
-        game->man.dy = -6;
-      }
-    }
-    else if(state[SDL_SCANCODE_DOWN])
-    {
-      game->man.dy += 0.6;
-      if(game->man.dy > 6)
-      {
-        game->man.dy = 6;
-      }
-    }
-    else if(state[SDL_SCANCODE_SPACE])
-    {
-      game->man.onLadder = 0;
-      game->man.jumping = 1;
-    }
-    else
-    {
-      game->man.dy = 0;
-      game->man.animFrame = 0;
-      //game->man.climbing = 0;
-    }
-  }
-  else if(!game->man.climbing)
-  {
-    if(state[SDL_SCANCODE_LEFT])
-    {
-      game->man.dx -= 0.5;
-      if(game->man.dx < -6)
-      {
-        game->man.dx = -6;
-      }
-      game->man.facingLeft = 1;
-      game->man.slowingDown = 0; //flag qui me dit que je suis entraind daccelerer
-      game->man.walking = 1;
-    }
-    else if(state[SDL_SCANCODE_RIGHT])
-    {
-      game->man.dx += 0.5;
-      if(game->man.dx > 6)
-      {
-        game->man.dx = 6;
-      }
-      game->man.facingLeft = 0;
-      game->man.slowingDown = 0;
-      game->man.walking = 1;
-    }
-    else
-    {
-      game->man.animFrame = 0;
-
-      game->man.dx *= 0.8f;
-
-      game->man.slowingDown = 1; // dans les autres cas on a appuyé sur rien et le perso slow down
-      game->man.walking = 0;
-
-      if(fabsf(game->man.dx) < 0.1f)
-      {
-        game->man.dx = 0;
-      }
-    }
-
-    if(state[SDL_SCANCODE_SPACE] && (game->man.onLedge))
-    {
-      game->man.dy = -8;
-      game->man.onLedge = 0;
-      game->man.jumping = 1;
-      game->man.walking = 0;
-      game->man.climbing = 0;
-    }
-
-  }// onladder check
-
-  // climbing a ladder
-  if (game->man.onLadder == 1)
-  {
-    if(state[SDL_SCANCODE_UP])
-    {
-      game->man.climbing = 1;
-    }
-    else if(state[SDL_SCANCODE_DOWN])
-    {
-      game->man.climbing = 1;
-    }
-    else if(state[SDL_SCANCODE_SPACE])
-    {
-      //game->man.dy = 0;
-      //game->man.dx = 0;
-      game->man.climbing = 1;
-      //game->man.jumping = 0;
-    }
-    else
-    {
-      game->man.climbing = 0;
-      game->man.animFrame =0;
-    }
-  }//ladder check
-  else if (game->man.onLadder == 1 && game->man.jumping)
-  {
-    game->man.dy = 0;
-    //game->man.jumping = 0;
-  }
-*/
-
+  //detects collision on the portal when gold is collected
   if(game->man.manGold == game->nbGolds 
       && (collide2d(game->man.x,game->man.y,game->gate.x,game->gate.y,64,64,game->gate.w,game->gate.h))){
     done = 1;
   }
 
-  if(game->man.x > 1280 || game->man.x < 0 || game->man.y > 640)
-  {
+  //man has stepped out of bounds, lets recover him
+  if( game->man.x > 1280 || game->man.x < 0 
+      || game->man.y > 640 || !game->man.health) {
+    manDies(&game->man);
     done = 1;
   }
 
@@ -507,6 +397,7 @@ void gameLoop(GameState *gameState, int levelMAX)
   SetStageNum(gameState,1);
   loadGame(gameState);
   gameState->musicChannel = Mix_PlayChannel(-1, gameState->bgMusic, -1);
+  initMan(&gameState->man);
 
   while(gameState->stageNum <= levelMAX)
   {
@@ -574,8 +465,9 @@ void destroySDL(GameState *gameState){
   //SDL_DestroyTexture(gameState->blue_portalTexture);
   //SDL_DestroyTexture(gameState->orange_portalTexture);
 
-  Mix_FreeChunk(gameState->dieSound);
-  Mix_FreeChunk(gameState->jumpSound);
+  Mix_FreeChunk(gameState->man.dieSound);
+  Mix_FreeChunk(gameState->man.jumpSound);
+  Mix_FreeChunk(gameState->man.ouchSound);
   Mix_FreeChunk(gameState->bombSound);
   Mix_FreeChunk(gameState->goldSound);
   Mix_FreeChunk(gameState->bgMusic);
