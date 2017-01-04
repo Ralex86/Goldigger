@@ -1,11 +1,11 @@
 #if defined (__APPLE__)
-	#include "SDL.h"
-	#include "SDL_image.h"
-	#include <assert.h>
+  #include "SDL.h"
+  #include "SDL_image.h"
+  #include <assert.h>
 #else
-	#include "SDL2/SDL.h"
-	#include "SDL2/SDL_image.h"
-	#include <assert.h>
+  #include "SDL2/SDL.h"
+  #include "SDL2/SDL_image.h"
+  #include <assert.h>
 #endif
 
 #include <stdio.h>
@@ -27,43 +27,41 @@ void updateManPosition(GameState *game)
   man->x += man->dx;
   man->y += man->dy; // on recoit les deplacements elementaires de Eventprocess
 
- if(!game->man.climbing)
- {
-  if(man->onLedge && !man->slowingDown)
+  if(!game->man.climbing)
   {
-    if(game->time % 2 == 0)
+    if(man->onLedge && !man->slowingDown)
     {
-      //sheet
-      man->animFrame %=11;
-      man->animFrame++;
+      if(game->time % 2 == 0)
+      {
+        //sheet
+        man->animFrame %=11;
+        man->animFrame++;
+      }
     }
+
+    if(!game->man.onLedge && !man->slowingDown)
+    {
+      if(game->time % 4 == 0)
+      {
+        //printf("%d\n",man->animFrame);
+        man->animFrame %=4;
+        man->animFrame++;
+      }
+    }
+
+    man->dy += game->mapGravity;
   }
 
-  if(!game->man.onLedge && !man->slowingDown)
+  if(game->man.climbing && game->man.onLadder)
   {
-    if(game->time % 4 == 0)
+    if(game->time % 3 == 0)
     {
-      //printf("%d\n",man->animFrame);
-      man->animFrame %=4;
-      man->animFrame++;
+      man->animFrame_onLadder %=3;
+
+      man->animFrame_onLadder++;
     }
   }
-
-  man->dy += game->mapGravity;
- }
-
- if(game->man.climbing && game->man.onLadder)
- {
-        if(game->time % 3 == 0)
-        {
-        man->animFrame_onLadder %=3;
-
-        man->animFrame_onLadder++;
-        }
- }
-
 }
-
 
 
 void loadMap(char *name, GameState *game)
@@ -87,8 +85,6 @@ void loadMap(char *name, GameState *game)
     exit(1);
   }
 
-
-
   for (y=0;y<game->mapDimY;y++)
   {
     for (x=0;x<game->mapDimX;x++)
@@ -102,8 +98,6 @@ void loadMap(char *name, GameState *game)
 
     }
   }
-  //printf("%d\n",game->nbLedges);
-
 
   game->ledges = (Ledge*) malloc(game->nbLedges*sizeof(Ledge)); 
   assert(game->ledges != NULL);
@@ -117,81 +111,74 @@ void loadMap(char *name, GameState *game)
   assert(game->snake != NULL);
 
   for (y=0;y<game->mapDimY;y++)
+  {
+    for (x=0;x<game->mapDimX;x++)
     {
-        for (x=0;x<game->mapDimX;x++)
-        {
-            if (tile[y][x] == 1 || tile[y][x] == 2 || tile[y][x] == 7)  // ledges dirt ou grass ou snow
-            {
-            game->ledges[i].w = 64;
-            game->ledges[i].h = 64;
-            game->ledges[i].x = x*64;
-            game->ledges[i].y = y*64;
-            game->ledges[i].ledgeType = tile[y][x];
-            game->ledges[i].destroyed = 0;
-            i++;
+      if (tile[y][x] == 1 || tile[y][x] == 2 || tile[y][x] == 7)  // ledges dirt ou grass ou snow
+      {
+        game->ledges[i].w = 64;
+        game->ledges[i].h = 64;
+        game->ledges[i].x = x*64;
+        game->ledges[i].y = y*64;
+        game->ledges[i].ledgeType = tile[y][x];
+        game->ledges[i].destroyed = 0;
+        i++;
+      }
 
-            }
+      if (tile[y][x] == 3 || tile[y][x] == 8)  // ladder
+      {
+        game->ladders[j].w = 64;
+        game->ladders[j].h = 64;
+        game->ladders[j].x = x*64;
+        game->ladders[j].y = y*64;
+        game->ladders[j].ladderType = tile[y][x];
+        j++;
+      }
 
-            if (tile[y][x] == 3 || tile[y][x] == 8)  // ladder
-            {
-                game->ladders[j].w = 64;
-            game->ladders[j].h = 64;
-            game->ladders[j].x = x*64;
-            game->ladders[j].y = y*64;
-            game->ladders[j].ladderType = tile[y][x];
-            j++;
+      if (tile[y][x] == 4)  // gold
+      {
+        game->golds[k].w = 64;
+        game->golds[k].h = 64;
+        game->golds[k].x = x*64;
+        game->golds[k].y = y*64;
+        game->golds[k].display = 1;
+        //printf("gx:%f g:y%f\n",game->golds[k].x,game->golds[k].y );
+        k++;
+      }
 
-            }
+      if (tile[y][x] == 5)  // gate
+      {
+        game->gate.w = 64;
+        game->gate.h = 128;
+        game->gate.x = x*64;
+        game->gate.y = y*64-64;
+        game->gate.open = 0;
+      }
 
-             if (tile[y][x] == 4)  // gold
-            {
-                game->golds[k].w = 64;
-            game->golds[k].h = 64;
-            game->golds[k].x = x*64;
-            game->golds[k].y = y*64;
-            game->golds[k].display = 1;
-            //printf("gx:%f g:y%f\n",game->golds[k].x,game->golds[k].y );
-            k++;
-
-            }
-
-             if (tile[y][x] == 5)  // gate
-            {
-            game->gate.w = 64;
-            game->gate.h = 128;
-            game->gate.x = x*64;
-            game->gate.y = y*64-64;
-            game->gate.open = 0;
-            }
-
-             if (tile[y][x] == 9)  // Snake
-            {
-            game->snake[m].w = 64;
-            game->snake[m].h = 64;
-            game->snake[m].x = x*64;
-            game->snake[m].y = y*64;
-            game->snake[m].enemy_animFrame = 0;
-            game->snake[m].facingLeft = 0;
-            m++;
-            }
+      if (tile[y][x] == 9)  // Snake
+      {
+        game->snake[m].w = 64;
+        game->snake[m].h = 64;
+        game->snake[m].x = x*64;
+        game->snake[m].y = y*64;
+        game->snake[m].enemy_animFrame = 0;
+        game->snake[m].facingLeft = 0;
+        m++;
+      }
 
 
-            if (tile[y][x] == 6)  // lava
-            {
-            game->lava_blocks[l].w = 64;
-            game->lava_blocks[l].h = 64;
-            game->lava_blocks[l].x = x*64;
-            game->lava_blocks[l].y = y*64;
-            game->lava_blocks[l].lava_anim = 0;
-            //printf("lx:%f l:y%f\n",game->lava_blocks[l].x,game->lava_blocks[l].y );
-            l++;
-
-            }
-
-
-
-        }
+      if (tile[y][x] == 6)  // lava
+      {
+        game->lava_blocks[l].w = 64;
+        game->lava_blocks[l].h = 64;
+        game->lava_blocks[l].x = x*64;
+        game->lava_blocks[l].y = y*64;
+        game->lava_blocks[l].lava_anim = 0;
+        //printf("lx:%f l:y%f\n",game->lava_blocks[l].x,game->lava_blocks[l].y );
+        l++;
+      }
     }
+  }
 
 
   fclose(fp);
@@ -200,183 +187,42 @@ void loadMap(char *name, GameState *game)
 
 void initLevel(GameState *game, int level)
 {
-  SDL_Surface *surface = NULL;
+  game->nbLedges = 0;
+  game->nbLadders = 0;
+  game->nbLava_blocks = 0;
+  game->nbGolds = 0;
+  game->nbDynamites = 0;
+  game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
+  assert(game->dynamites!= NULL); 
+  game->nbEnemies = 0;
+  game->mapGravity = 0.55;
+  game->mapDimX = 20;
+  game->mapDimY = 10;
+  game->time = 0;
+  
   if(level == 1)
   {
-  //charge le background
-  SDL_Surface *bg = IMG_Load("data/cave-background.jpg");
-  game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-  SDL_FreeSurface(bg);
-
-
-  // initialisation des elements decors
-
-  game->man.x = 240;
-  game->man.y = 540;
-  game->man.dx = 0;
-  game->man.dy = 0;
-  game->man.w = 48;
-  game->man.h = 64;
-  game->man.onLedge = 0;
-  game->man.onLadder = 0;
-  game->man.animFrame = 0;
-  game->man.animFrame_onLadder = 0;
-  game->man.facingLeft = 0;
-  game->man.slowingDown = 0;
-  game->man.walking = 0;
-  game->man.jumping = 0;
-  game->man.climbing = 0;
-  // pas oublier d'initialiser les compter dechelles et de ledges
-  game->nbLedges = 0;
-  game->nbLadders = 0;
-  game->nbLava_blocks = 0;
-  game->nbGolds = 0;
-  game->man.manGold = 0;
-  game->nbDynamites = 0;
-  game->man.manDynamites = 10;
-  game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
-  assert(game->dynamites!= NULL); 
-  game->nbEnemies = 0;
-  game->mapGravity = 0.55;
-  game->mapDimX = 20;
-  game->mapDimY = 10;
-
-  game->time = 0;
+    setLevelBackground(game, "files/images/cave-background.jpg");
+    initManLevel(&game->man);
   }
-
-  if(level == 2)
+  else if(level == 2)
   {
-  //charge le background
-  SDL_Surface *bg = IMG_Load("data/snowy-background.jpg");
-  game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-  SDL_FreeSurface(bg);
-
-
-  // initialisation des elements decors
-
-  game->man.x = 240;
-  game->man.y = 540;
-  game->man.dx = 0;
-  game->man.dy = 0;
-  game->man.w = 48;
-  game->man.h = 64;
-  game->man.onLedge = 0;
-  game->man.onLadder = 0;
-  game->man.animFrame = 0;
-  game->man.animFrame_onLadder = 0;
-  game->man.facingLeft = 1;
-  game->man.slowingDown = 0;
-  game->man.walking = 0;
-  game->man.jumping = 0;
-  game->man.climbing = 0;
-  // pas oublier d'initialiser les compter dechelles et de ledges
-  game->nbLedges = 0;
-  game->nbLadders = 0;
-  game->nbLava_blocks = 0;
-  game->nbGolds = 0;
-  game->man.manGold = 0;
-  game->nbDynamites = 0;
-  game->man.manDynamites = 10;
-  game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
-  assert(game->dynamites!= NULL); 
-
-    game->nbEnemies = 0;
-
-
-  game->mapGravity = 0.55;
-  game->mapDimX = 20;
-  game->mapDimY = 10;
-
-  game->time = 0;
+    setLevelBackground(game, "files/images/snowy-background.jpg");
+    initManLevel(&game->man);
+    game->man.facingLeft = 1;
   }
-
-  if(level == 3)
+  else if(level == 3)
   {
-  //charge le background
-  SDL_Surface *bg = IMG_Load("data/snowy-background.jpg");
-  game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-  SDL_FreeSurface(bg);
-
-
-  // initialisation des elements decors
-
-  game->man.x = 240;
-  game->man.y = 380;
-  game->man.dx = 0;
-  game->man.dy = 0;
-  game->man.w = 48;
-  game->man.h = 64;
-  game->man.onLedge = 0;
-  game->man.onLadder = 0;
-  game->man.animFrame = 0;
-  game->man.animFrame_onLadder = 0;
-  game->man.facingLeft = 1;
-  game->man.slowingDown = 0;
-  game->man.walking = 0;
-  game->man.jumping = 0;
-  game->man.climbing = 0;
-  // pas oublier d'initialiser les compter dechelles et de ledges
-  game->nbLedges = 0;
-  game->nbLadders = 0;
-  game->nbLava_blocks = 0;
-  game->nbGolds = 0;
-  game->man.manGold = 0;
-  game->nbDynamites = 0;
-  game->man.manDynamites = 10;
-  game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite)); 
-  assert(game->dynamites!= NULL);
-
-    game->nbEnemies = 0;
-
-
-  game->mapGravity = 0.55;
-  game->mapDimX = 20;
-  game->mapDimY = 10;
-
-  game->time = 0;
+    setLevelBackground(game, "files/images/snowy-background.jpg"); 
+    initManLevel(&game->man);
+    game->man.y = 380;
+    game->man.facingLeft = 1;
   }
-
-  if(level == 4)
+  else if(level == 4)
   {
-   //charge le background
-  SDL_Surface *bg = IMG_Load("data/cave-background2.jpg");
-  game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
-  SDL_FreeSurface(bg);
-
-
-  // initialisation des elements decors
-
-  game->man.x = 240;
-  game->man.y = 320;
-  game->man.dx = 0;
-  game->man.dy = 0;
-  game->man.w = 48;
-  game->man.h = 64;
-  game->man.onLedge = 0;
-  game->man.onLadder = 0;
-  game->man.animFrame = 0;
-  game->man.animFrame_onLadder = 0;
-  game->man.facingLeft = 0;
-  game->man.slowingDown = 0;
-  game->man.walking = 0;
-  game->man.jumping = 0;
-  game->man.climbing = 0;
-  // pas oublier d'initialiser les compter dechelles et de ledges
-  game->nbLedges = 0;
-  game->nbLadders = 0;
-  game->nbLava_blocks = 0;
-  game->nbGolds = 0;
-  game->man.manGold = 0;
-  game->nbDynamites = 0;
-  game->man.manDynamites = 10;
-  game->dynamites = (Dynamite*) malloc(10*sizeof(Dynamite));
-  assert(game->dynamites!= NULL); 
-  game->nbEnemies = 0;
-  game->mapGravity = 0.55;
-  game->mapDimX = 20;
-  game->mapDimY = 10;
-
-  game->time = 0;
+    setLevelBackground(game, "files/images/cave-background2.jpg");
+    initManLevel(&game->man);
+    game->man.y = 320;
   }
 }
 
@@ -385,44 +231,37 @@ void SetStageNum(GameState *game, int stageNum)
   game->stageNum = stageNum;
 }
 
-
-
 void loadGame(GameState *game)
 {
   SDL_Surface *surface = NULL;
-
+  surface = IMG_Load("files/images/Sprites.png");
   
-  surface = IMG_Load("data/Sprites.png");
   if(surface == NULL)
   {
     printf("Cannot find Sprites.png !\n\n");
     SDL_Quit();
     exit(1);
   }
+  
   game->sheetTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
   SDL_FreeSurface(surface);
-
-
-  game->bgMusic = Mix_LoadWAV("data/indiana.wav");
-    if(game->bgMusic != NULL)
+  game->bgMusic = Mix_LoadWAV("files/audio/indiana.wav");
+  
+  if(game->bgMusic != NULL)
   {
     Mix_VolumeChunk(game->bgMusic, 16);
   }
-  game->dieSound = Mix_LoadWAV("data/die.wav");
-  game->jumpSound = Mix_LoadWAV("data/jump.wav");
-  game->bombSound = Mix_LoadWAV("data/Bomb.wav");
-  game->goldSound = Mix_LoadWAV("data/gold.wav");
+  
+  game->bombSound = Mix_LoadWAV("files/audio/Bomb.wav");
+  game->goldSound = Mix_LoadWAV("files/audio/gold.wav");
 
   initLevel(game,game->stageNum);
 
   char levelPath[20];
-  sprintf(levelPath,"data/level%d",game->stageNum);
+  sprintf(levelPath,"files/levels/level%d",game->stageNum);
 
   loadMap(levelPath,game);
-
-
 }
-
 
 void process(GameState *game)
 {
@@ -440,7 +279,6 @@ void process(GameState *game)
     }
   }
 
-
   for(int i = 0 ; i < game->nbLava_blocks;i++)
   {
     if(game->time % 3 == 0)
@@ -450,207 +288,208 @@ void process(GameState *game)
     }
   }
 
- for(int i = 0 ; i < game->nbDynamites;i++)
- 	{
- 		if(!game->dynamites[i].used)
-  		{
-  			if(game->time % 8 == 0)
-  			{
-    			if(game->dynamites[i].countdown < 14)
-    			{
-      				printf("%d\n",game->dynamites[i].countdown );
-      				game->dynamites[i].countdown++;
+  for(int i = 0 ; i < game->nbDynamites;i++)
+  {
+    if(!game->dynamites[i].used)
+    {
+      if(game->time % 8 == 0)
+      {
+        if(game->dynamites[i].countdown < 14)
+        {
+          printf("%d\n",game->dynamites[i].countdown );
+          game->dynamites[i].countdown++;
+        }
+        if(game->dynamites[i].countdown > 13)
+        {
+          Mix_PlayChannel(-1, game->bombSound, 0);
+          game->dynamites[i].used = 1;
+          for(int k = 0 ; k < game->nbLedges;k++)
+          {
+            if(collide2dLadder(game->ledges[k].x,game->ledges[k].y,game->dynamites[i].x,game->dynamites[i].y,game->ledges[k].w,game->ledges[k].h,game->dynamites[i].w,game->dynamites[i].h) == 1)
+            {
+              game->ledges[k].destroyed = 1;
+            }
+          }
+        }
+      }
+    }
+  }
 
-    			}
-    			if(game->dynamites[i].countdown > 13)
-    			{
-   	  				Mix_PlayChannel(-1, game->bombSound, 0);
-   	  				game->dynamites[i].used = 1;
-      				for(int k = 0 ; k < game->nbLedges;k++)
-      				{
-        				if(collide2dLadder(game->ledges[k].x,game->ledges[k].y,game->dynamites[i].x,game->dynamites[i].y,game->ledges[k].w,game->ledges[k].h,game->dynamites[i].w,game->dynamites[i].h) == 1)
-        				{
-          				game->ledges[k].destroyed = 1;
-        				}
-      				}
-     			}
-  			}
-  		}
-	}
+  updateManPosition(game);
 
- updateManPosition(game);
-
-   //add time
+  //add time
   game->time++;
 }
 
 void collide2dSnakes(GameState *game)
 {
+  float mw = game->man.w, mh = game->man.h; 
+  float mx = game->man.x, my = game->man.y; 
+
   for(int j=0;j<game->nbEnemies;j++)
   {
-  float mw = game->snake[j].w, mh = game->snake[j].h; // a mettre dans la structure gamestate
-  float mx = game->snake[j].x, my = game->snake[j].y; // a mettre get (mutateur)
-  printf("%f %f %f %f\n",mw,mh,mx,my);
-  for(int i = 0; i < game->nbLedges; i++)
-  {
-  float bx = game->ledges[i].x, by = game->ledges[i].y, bw = game->ledges[i].w, bh = game->ledges[i].h;
-    
-  if(game->ledges[i].destroyed == 0)
-  {
-  if(mx+mw > bx && mx <bx+bw)
+    float sw = game->snake[j].w, sh = game->snake[j].h; 
+    float sx = game->snake[j].x, sy = game->snake[j].y; 
+
+    if(collide2d(mx,my,sx,sy,mw,mh,sw,sh))
     {
-      //somme nous sur ledge ?
-      if(my+mh > by && my < by)
-      {
-        //correct y
-        game->snake[j].y = by-mh;
-        my = by-mh;
-      }
+      manHurt(&game->man);
     }
 
-    if(my+mh > by && my<by+bh)
+    //control movement of the snakes 
+    for(int i = 0; i < game->nbLedges; i++)
     {
-      //se cogne sur bord droit 
-      if(mx < bx+bw && mx+mw > bx+bw)
-      {
-        //correct x
-        game->snake[j].x = bx+bw;
-        mx = bx+bw;
+      float bx = game->ledges[i].x, by = game->ledges[i].y, bw = game->ledges[i].w, bh = game->ledges[i].h;
 
-        game->snake[j].facingLeft = 0;
-      }
-      //se cogne sur bord gauche
-      else if(mx+mw > bx && mx < bx)
+      if(game->ledges[i].destroyed == 0)
       {
-        //correct x
-        game->snake[j].x = bx-mw;
-        mx = bx-mw;
+        if(sx+sw > bx && sx <bx+bw)
+        {
+          //somme nous sur ledge ?
+          if(sy+sh > by && sy < by)
+          {
+            //correct y
+            game->snake[j].y = by-sh;
+            sy = by-sh;
+          }
+        }
 
-        game->snake[j].facingLeft = 1;
+        if(sy+sh > by && sy<by+bh)
+        {
+          //bumps on right edge
+          if(sx < bx+bw && sx+sw > bx+bw)
+          {
+            //correct x
+            game->snake[j].x = bx+bw;
+            sx = bx+bw;
+
+            game->snake[j].facingLeft = 0;
+          }
+          //bumps on left edge
+          else if(sx+sw > bx && sx < bx)
+          {
+            //correct x
+            game->snake[j].x = bx-sw;
+            sx = bx-sw;
+
+            game->snake[j].facingLeft = 1;
+          }
+        }
       }
     }
   }
-}
-}
 }
 
 void collisionDetect(GameState *game)
 {
-   float mw = game->man.w, mh = game->man.h; // a mettre dans la structure gamestate
-   float mx = game->man.x, my = game->man.y; // a mettre get (mutateur)
+  float mw = game->man.w, mh = game->man.h; // a mettre dans la structure gamestate
+  float mx = game->man.x, my = game->man.y; // a mettre get (mutateur)
 
+  //verifie chute
+//  if(game->man.y > 700)
+//  {
+//    manDies(&game, &man);
+//  }
 
-   //verifie chute
-  if(game->man.y > 700)
-  {
-      Mix_PlayChannel(-1, game->dieSound, 0);
-  }
-  
-
-
-   // est ce quon ramasse un lingot
+  // est ce quon ramasse un lingot
   for(int i = 0; i < game->nbGolds; i++)
   {
-     float gx = game->golds[i].x, gy = game-> golds[i].y, gw = game-> golds[i].w, gh = game-> golds[i].h;
-    
-     if(collide2d(mx,my,gx,gy,mw,mh,gw,gh) && game->golds[i].display == 1)
-      {
-      	Mix_PlayChannel(-1, game->goldSound, 0);
-        game->golds[i].display = 0;
-        game->man.manGold ++;
-      }
+    float gx = game->golds[i].x, gy = game-> golds[i].y, gw = game-> golds[i].w, gh = game-> golds[i].h;
+
+    if(collide2d(mx,my,gx,gy,mw,mh,gw,gh) && game->golds[i].display == 1)
+    {
+      Mix_PlayChannel(-1, game->goldSound, 0);
+      game->golds[i].display = 0;
+      game->man.manGold ++;
+    }
   }
-      // est ce qu'on est sur une echelle ?
+  // est ce qu'on est sur une echelle ?
   //printf("%d \n\n\n",game->nbLadders);
 
   game->man.onLadder = 0;
-  //int found = 0;
   for(int i = 0; i < game->nbLadders; i++)
   {
     float lx = game->ladders[i].x, ly = game->ladders[i].y, lw = game->ladders[i].w, lh = game->ladders[i].h;
     if(collide2dLadder(mx,my,lx,ly,mw,mh,lw,lh))
     {
-      printf("mx:%f my:%f lx:%f ly:%f ladder:%d\n",mx,my,lx,ly,game->man.onLadder);
+      //printf("mx:%f my:%f lx:%f ly:%f ladder:%d\n",mx,my,lx,ly,game->man.onLadder);
       game->man.onLadder = 1;
-      //found = 1;
-      printf("je suis sur l'echelle : %d\n", game->man.onLadder);
       break;
     }
-  } //for
-  /*if(found == 0)
-  {
-    game->man.climbing =0;
-  }*/
+  } 
 
-  
   //game->man.onLedge = 0;
   // verifie collision avec snakes/ledges
   if(game->nbEnemies>0)
   {
-  collide2dSnakes(game);
+    collide2dSnakes(game);
   }
 
   //verifie collision avec Ledges
   for(int i = 0; i < game->nbLedges; i++)
   {
-  float bx = game_getLedgeX(game,i), by = game->ledges[i].y, bw = game->ledges[i].w, bh = game->ledges[i].h; //game_getLedgeX(game,i)
-  
+    float bx = game_getLedgeX(game,i), by = game->ledges[i].y, bw = game->ledges[i].w, bh = game->ledges[i].h; //game_getLedgeX(game,i)
 
-  if(game->ledges[i].destroyed == 0)
-  {
-    if(mx+mw/2 > bx && mx+mw/2<bx+bw)
+
+    if(game->ledges[i].destroyed == 0)
     {
-      //on se cogne la tete ?
-      if(my < by+bh && my > by && game->man.dy < 0)
+      if(mx+mw/2 > bx && mx+mw/2<bx+bw)
       {
-        //correct y
-        game->man.y = by+bh;
-        my = by+bh;
+        //on se cogne la tete ?
+        if(my < by+bh && my > by && game->man.dy < 0)
+        {
+          //correct y
+          game->man.y = by+bh;
+          my = by+bh;
 
-        //tete cogné, stop velocite
-        game->man.dy = 0;
-        game->man.onLedge = 1;
-        //game->man.jumping = 0;
+          //tete cogné, stop velocite
+          game->man.dy = 0;
+          game->man.onLedge = 1;
+          //game->man.jumping = 0;
+        }
+      }
+      if(mx+mw > bx && mx <bx+bw)
+      {
+        //on est sur ledge ?
+        if(my+mh > by && my < by && game->man.dy > 0)
+        {
+          //correct y
+          game->man.y = by-mh;
+          my = by-mh;
+
+          //sur legdge, stop velocite
+          game->man.dy = 0;
+          game->man.onLedge = 1;
+          game->man.jumping = 0;
+        }
+      }
+
+      if(my+mh > by && my<by+bh)
+      {
+        //se cogne sur bord droit
+        if(mx < bx+bw && mx+mw > bx+bw && game->man.dx < 0)
+        {
+          //correct x
+          game->man.x = bx+bw;
+          mx = bx+bw;
+          game->man.dx = 0;
+        }
+        //se cogne sur bord gauche
+        else if(mx+mw > bx && mx < bx && game->man.dx > 0)
+        {
+          //correct x
+          game->man.x = bx-mw;
+          mx = bx-mw;
+          game->man.dx = 0;
+        }
       }
     }
-    if(mx+mw > bx && mx <bx+bw)
-    {
-      //on est sur ledge ?
-      if(my+mh > by && my < by && game->man.dy > 0)
-      {
-        //correct y
-        game->man.y = by-mh;
-        my = by-mh;
-
-        //sur legdge, stop velocite
-        game->man.dy = 0;
-        game->man.onLedge = 1;
-        game->man.jumping = 0;
-      }
-    }
-
-    if(my+mh > by && my<by+bh)
-    {
-      //se cogne sur bord droit
-      if(mx < bx+bw && mx+mw > bx+bw && game->man.dx < 0)
-      {
-        //correct x
-        game->man.x = bx+bw;
-        mx = bx+bw;
-
-        game->man.dx = 0;
-      }
-      //se cogne sur bord gauche
-      else if(mx+mw > bx && mx < bx && game->man.dx > 0)
-      {
-        //correct x
-        game->man.x = bx-mw;
-        mx = bx-mw;
-
-        game->man.dx = 0;
-      }
-    }
-   }
   }//for
-
 }
+
+void setLevelBackground(GameState *game, char* bgImagePath){
+  SDL_Surface *bg = IMG_Load(bgImagePath);
+  game->backgroundTexture = SDL_CreateTextureFromSurface(game->renderer, bg);
+  SDL_FreeSurface(bg);
+}
+

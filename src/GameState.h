@@ -64,8 +64,6 @@ typedef struct
   //Sounds
   int musicChannel;
   Mix_Chunk *bgMusic;
-  Mix_Chunk *dieSound;
-  Mix_Chunk *jumpSound;
   Mix_Chunk *bombSound;
   Mix_Chunk *goldSound;
 
@@ -156,4 +154,6 @@ void updateManPosition(GameState *game);
  */
 void collide2dSnakes(GameState *game);
 
+
+void setLevelBackground(GameState *game, char* bgImagePath);
 #endif
