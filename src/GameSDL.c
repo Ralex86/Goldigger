@@ -160,14 +160,17 @@ int processEvents(GameState *game){
   //detects collision on the portal when gold is collected
   if(game->man.manGold == game->nbGolds 
       && (collide2d(game->man.x,game->man.y,game->gate.x,game->gate.y,64,64,game->gate.w,game->gate.h))){
-    done = 1;
+    done = 2;
   }
 
   //man has stepped out of bounds, lets recover him
   if( game->man.x > 1280 || game->man.x < 0 
       || game->man.y > 640 || !game->man.health) {
-    manDies(&game->man);
     done = 1;
+  }
+
+  if(done == 1) {
+    manDies(&game->man);
   }
 
   return done;
@@ -399,10 +402,16 @@ void gameLoop(GameState *gameState, int levelMAX)
   gameState->musicChannel = Mix_PlayChannel(-1, gameState->bgMusic, -1);
   initMan(&gameState->man);
 
-  while(gameState->stageNum <= levelMAX)
+  /** 
+   * 0 = playing current level
+   * 1 = lost current level
+   * 2 = won current level
+   */
+  int done;
+  
+  while(gameState->stageNum <= levelMAX && (gameState->man.lifes > 0))
   {
-    int done = 0;
-
+    done = 0;
     //boucle evenement
     while(!done)
     {
@@ -416,17 +425,30 @@ void gameLoop(GameState *gameState, int levelMAX)
       //Render display
       doRender(gameState);
     }
-    //destroyLevel(gameState);
-    if (gameState->stageNum == levelMAX)
-    {
-      break;
+
+    if(done == 2) {
+      //destroyLevel(gameState);
+      if (gameState->stageNum == levelMAX)
+      {
+        break;
+      }
+      else
+      {
+        gameState->stageNum++;
+      }
     }
-    else
-    {
-      destroyLevel(gameState);
-      gameState->stageNum ++;
-      loadGame(gameState);
-    }
+    destroyLevel(gameState);
+    loadGame(gameState);
+  }
+
+  //GAME OVER SCREEN HERE
+  if(gameState->stageNum == levelMAX && done == 2) {
+    //WIN
+    printf("You Won\n");
+  }
+  else {
+    //LOST
+    printf("You Lost\n");
   }
 }
 
