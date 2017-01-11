@@ -82,7 +82,7 @@ int processEvents(GameState *game){
   }
   if(game->man.climbing)
   {
-    printf("DX: %f, DY: %f\n", game->man.dx, game->man.dy);
+    //printf("DX: %f, DY: %f\n", game->man.dx, game->man.dy);
     if(!game->man.onLadder || game->man.onLedge)
     {
       game->man.climbing = 0;
@@ -442,6 +442,7 @@ void gameLoop(GameState *gameState, int levelMAX)
       //destroyLevel(gameState);
       if (gameState->stageNum == levelMAX)
       {
+        printf("You Won\n");
         break;
       }
       else
@@ -449,18 +450,12 @@ void gameLoop(GameState *gameState, int levelMAX)
         gameState->stageNum++;
       }
     }
+    else if(gameState->stageNum == levelMAX && done == 1) {
+      printf("You Lost\n");
+      gameState->stageNum = 1;
+    }
     destroyLevel(gameState);
     loadGame(gameState);
-  }
-
-  //GAME OVER SCREEN HERE
-  if(gameState->stageNum == levelMAX && done == 2) {
-    //WIN
-    printf("You Won\n");
-  }
-  else {
-    //LOST
-    printf("You Lost\n");
   }
 }
 
