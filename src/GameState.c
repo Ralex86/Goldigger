@@ -204,6 +204,7 @@ void initLevel(GameState *game, int level)
   {
     setLevelBackground(game, "files/images/cave-background.jpg");
     initManLevel(&game->man);
+    game->man.x = 220;
   }
   else if(level == 2)
   {
