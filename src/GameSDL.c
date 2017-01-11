@@ -162,7 +162,7 @@ int processEvents(GameState *game){
       }
     }
 
-    if(state[SDL_SCANCODE_SPACE] && (game->man.onLedge))
+    if(state[SDL_SCANCODE_SPACE] && ((game->man.onLedge) || (game->man.climbing)))
     {
       game->man.dy = -8;
       game->man.onLedge = 0;
