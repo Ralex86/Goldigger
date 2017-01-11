@@ -82,6 +82,7 @@ int processEvents(GameState *game){
   }
   if(game->man.climbing)
   {
+    printf("DX: %f, DY: %f\n", game->man.dx, game->man.dy);
     if(!game->man.onLadder || game->man.onLedge)
     {
       game->man.climbing = 0;
@@ -90,21 +91,36 @@ int processEvents(GameState *game){
     {
       game->man.dx = 0;
       game->man.dy -= 0.07;
+      if(game->man.dy < -3) {
+        game->man.dy = -3;
+      }
     }
     else if(state[SDL_SCANCODE_DOWN])
     {
       game->man.dx = 0;
       game->man.dy += 0.07;
+      if(game->man.dy > 3) {
+        game->man.dy = 3;
+      }
     }
     else if(state[SDL_SCANCODE_LEFT])
     {
       game->man.dx -= 0.07;
       game->man.dy = 0;
+      if(game->man.dx < -3) {
+        game->man.dx = -3;
+      }
     }
     else if(state[SDL_SCANCODE_RIGHT])
     {
       game->man.dx += 0.07;
       game->man.dy = 0;
+      if(game->man.dx > 3) {
+        game->man.dx = 3;
+      }
+    }
+    else {
+      game->man.slowingDown = 1;
     }
   }
   else if(!game->man.climbing)
