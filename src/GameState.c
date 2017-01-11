@@ -204,6 +204,7 @@ void initLevel(GameState *game, int level)
   {
     setLevelBackground(game, "files/images/cave-background.jpg");
     initManLevel(&game->man);
+    game->man.x = 220;
   }
   else if(level == 2)
   {
@@ -410,7 +411,7 @@ void collisionDetect(GameState *game)
   for(int i = 0; i < game->nbLadders; i++)
   {
     float lx = game->ladders[i].x, ly = game->ladders[i].y, lw = game->ladders[i].w, lh = game->ladders[i].h;
-    if(collide2dLadder(mx,my,lx,ly,mw,mh,lw,lh))
+    if(collide2dLadder(mx,(my-(mh-(mh*.3))),lx,ly,mw,mh,lw,lh))
     {
       //printf("mx:%f my:%f lx:%f ly:%f ladder:%d\n",mx,my,lx,ly,game->man.onLadder);
       game->man.onLadder = 1;

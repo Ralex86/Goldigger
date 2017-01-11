@@ -69,13 +69,10 @@ int processEvents(GameState *game){
 
   if(game->man.onLadder && game->man.slowingDown)
   {
-    //game->man.dx = 0;
     if(state[SDL_SCANCODE_UP])
     {
-      game->man.climbing = 1;
-    }
-    else if(state[SDL_SCANCODE_DOWN])
-    {
+      game->man.slowingDown = 0;
+      game->man.onLedge = 0;
       game->man.climbing = 1;
     }
     else
@@ -83,8 +80,50 @@ int processEvents(GameState *game){
       game->man.climbing = 0;
     }
   }
-
-  if(!game->man.climbing)
+  if(game->man.climbing)
+  {
+    //printf("DX: %f, DY: %f\n", game->man.dx, game->man.dy);
+    if(!game->man.onLadder || game->man.onLedge)
+    {
+      game->man.climbing = 0;
+    }
+    if(state[SDL_SCANCODE_UP])
+    {
+      game->man.dx = 0;
+      game->man.dy -= 0.07;
+      if(game->man.dy < -3) {
+        game->man.dy = -3;
+      }
+    }
+    else if(state[SDL_SCANCODE_DOWN])
+    {
+      game->man.dx = 0;
+      game->man.dy += 0.07;
+      if(game->man.dy > 3) {
+        game->man.dy = 3;
+      }
+    }
+    else if(state[SDL_SCANCODE_LEFT])
+    {
+      game->man.dx -= 0.07;
+      game->man.dy = 0;
+      if(game->man.dx < -3) {
+        game->man.dx = -3;
+      }
+    }
+    else if(state[SDL_SCANCODE_RIGHT])
+    {
+      game->man.dx += 0.07;
+      game->man.dy = 0;
+      if(game->man.dx > 3) {
+        game->man.dx = 3;
+      }
+    }
+    else {
+      game->man.slowingDown = 1;
+    }
+  }
+  else if(!game->man.climbing)
   {
     if(state[SDL_SCANCODE_LEFT])
     {
@@ -123,7 +162,7 @@ int processEvents(GameState *game){
       }
     }
 
-    if(state[SDL_SCANCODE_SPACE] && (game->man.onLedge))
+    if(state[SDL_SCANCODE_SPACE] && ((game->man.onLedge) || (game->man.climbing)))
     {
       game->man.dy = -8;
       game->man.onLedge = 0;
@@ -131,32 +170,6 @@ int processEvents(GameState *game){
     }
 
   }
-  else if(game->man.climbing)
-  {
-    if(!game->man.onLadder)
-    {
-      game->man.climbing = 0;
-    }
-    if(state[SDL_SCANCODE_UP])
-    {
-      game->man.dx =0;
-      game->man.dy -= 0.3;
-      if(game->man.dy < -3)
-      {
-        game->man.dy = -3;
-      }
-    }
-    else if(state[SDL_SCANCODE_DOWN])
-    {
-      game->man.dx =0;
-      game->man.dy += 0.3;
-      if(game->man.dy > 3)
-      {
-        game->man.dy = 3;
-      }
-    }
-  }
-
   //detects collision on the portal when gold is collected
   if(game->man.manGold == game->nbGolds 
       && (collide2d(game->man.x,game->man.y,game->gate.x,game->gate.y,64,64,game->gate.w,game->gate.h))){
@@ -292,13 +305,13 @@ void doRenderMan(GameState *game)
     SDL_Rect rect_man = { game->man.x, game->man.y, game->man.w, game->man.h };
     SDL_RenderCopyEx(game->renderer, game->sheetTexture, &srcRect_man, &rect_man, 0, NULL, game->man.facingLeft );
   }
-  else if(!game->man.slowingDown && game->man.onLedge)
+  else if(!game->man.slowingDown && game->man.onLedge && !game->man.climbing)
   {
     SDL_Rect srcRect_man = { game->man.animFrame*game->man.w, 64, game->man.w, game->man.h };
     SDL_Rect rect_man = { game->man.x, game->man.y, game->man.w, game->man.h };
     SDL_RenderCopyEx(game->renderer, game->sheetTexture,&srcRect_man, &rect_man, 0, NULL, game->man.facingLeft );
   }
-  else if(!game->man.onLedge && !game->man.onLedge && !game->man.climbing) // saut
+  else if(!game->man.onLedge && !game->man.climbing) // saut
   {
     SDL_Rect srcRect_man = { game->man.animFrame*game->man.w, 128, game->man.w, game->man.h };
 
@@ -307,8 +320,7 @@ void doRenderMan(GameState *game)
     SDL_RenderCopyEx(game->renderer, game->sheetTexture,
         &srcRect_man, &rect_man, 0, NULL, game->man.facingLeft );
   }
-
-  if(game->man.climbing)
+  else if(game->man.climbing)
   {
     SDL_Rect srcRect_man = { game->man.animFrame_onLadder*game->man.w, 192, game->man.w, game->man.h };
 
@@ -430,6 +442,7 @@ void gameLoop(GameState *gameState, int levelMAX)
       //destroyLevel(gameState);
       if (gameState->stageNum == levelMAX)
       {
+        printf("You Won\n");
         break;
       }
       else
@@ -437,18 +450,12 @@ void gameLoop(GameState *gameState, int levelMAX)
         gameState->stageNum++;
       }
     }
+    else if(gameState->stageNum == levelMAX && done == 1) {
+      printf("You Lost\n");
+      gameState->stageNum = 1;
+    }
     destroyLevel(gameState);
     loadGame(gameState);
-  }
-
-  //GAME OVER SCREEN HERE
-  if(gameState->stageNum == levelMAX && done == 2) {
-    //WIN
-    printf("You Won\n");
-  }
-  else {
-    //LOST
-    printf("You Lost\n");
   }
 }
 
